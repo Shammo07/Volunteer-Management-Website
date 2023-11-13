@@ -87,66 +87,72 @@ const route = useRoute()
 
 
 
-            <div class="container row my-4">
-                <div class="col-md-6">
-                    <form class="container" @submit.prevent="submitVolunteer">
-                        <div class="mb-3">
-                            <label for="imputEmail" class="form-label">Email</label>
-                            <input type="email" v-model="email" class="form-control" id="imputEmail">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputPassword" class="form-label">Password</label>
-                            <input type="password" v-model="password" class="form-control" id="imputPassword">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputName" class="form-label">Name</label>
-                            <input type="text" v-model="name" class="form-control" id="inputName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputContact" class="form-label">Contact</label>
-                            <input type="text" v-model="contact" class="form-control" id="inputContact">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputAge" class="form-label">Age Group</label>
-                            <select class="form-select" aria-label="Default select example" v-model="ageGroup"
-                                id="inputAge">
-                                <option selected disabled>Dropdown...</option>
-                                <option value="18-25">18-25</option>
-                                <option value="26-36">26-36</option>
-                                <option value="36+">36+</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="remarks" class="form-label">About me and remarks</label>
-                            <textarea class="form-control" v-model="remarks" id="remarks" rows="3"></textarea>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" v-model="terms" id="gridCheck1">
-                                <label class="form-check-label" for="gridCheck1">
-                                    Agree to Terms and Conditions
-                                </label>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form class="container" @submit.prevent="submitVolunteer">
+                            <div class="mb-3">
+                                <label for="imputEmail" class="form-label">Email</label>
+                                <input type="email" v-model="volunteer.email" class="form-control" id="imputEmail">
                             </div>
+                            <div class="mb-3">
+                                <label for="inputPassword" class="form-label">Password</label>
+                                <input type="password" v-model="volunteer.password" class="form-control" id="imputPassword">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputName" class="form-label">Name</label>
+                                <input type="text" v-model="volunteer.name" class="form-control" id="inputName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputContact" class="form-label">Contact</label>
+                                <input type="text" v-model="volunteer.contact" class="form-control" id="inputContact">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputAge" class="form-label">Age Group</label>
+                                <select class="form-select" aria-label="Default select example" v-model="volunteer.ageGroup"
+                                    id="inputAge">
+                                    <option selected disabled>Dropdown...</option>
+                                    <option value="18-25">18-25</option>
+                                    <option value="26-36">26-36</option>
+                                    <option value="36+">36+</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="remarks" class="form-label">About me and remarks</label>
+                                <textarea class="form-control" v-model="volunteer.remarks" id="remarks" rows="3"></textarea>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" v-model="volunteer.terms"
+                                        id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                        Agree to Terms and Conditions
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Register</button>
+
+
+                        </form>
+                    </div>
+
+
+
+                    <div class="col-12 col-md-6 my-2" style="max-height: 500px;">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="60%"
+                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap"
+                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6"
+                                dy=".3em">Image cap</text>
+                        </svg>
+                        <div class="card-body">
+                            <h5 class="card-title">Become a Volunteer!</h5>
+                            <p class="card-text">Your time and talent can make a real difference in people's life.</p>
+
                         </div>
-
-                        <button type="submit" class="btn btn-primary">Register</button>
-
-
-                    </form>
-                </div>
-                <div class="card col-12 col-md-6" style="max-height: 500px;">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="60%"
-                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap"
-                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6"
-                            dy=".3em">Image cap</text>
-                    </svg>
-                    <div class="card-body">
-                        <h5 class="card-title">Become a Volunteer!</h5>
-                        <p class="card-text">Your time and talent can make a real difference in people's life.</p>
-
                     </div>
                 </div>
             </div>

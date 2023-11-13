@@ -1,8 +1,58 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
+
+const newEvent = ref({
+    title: '',
+    description: '',
+    organizer: '',
+    datetime: '',
+    quota: 0,
+    location: '',
+    image: '',
+    highlight: false,
+})
+
+const submitEvent = async function () {
+    var url = '/api/events'
+    var method = 'POST'
+
+    if (route.name === 'editEvent') {
+        url = url + '/edit/' + newEvent.value._id
+        method = 'PUT'
+    }
+
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEvent.value),
+    })
+    const json = await response.json()
+ 
+    // alert the user
+    alert(JSON.stringify(json))
+    router.push('/')
+}
+
+const getEvent = async function () {
+    const response = await fetch('/api/events/detail/' + route.params.id)
+    const json = await response.json()
+    newEvent.value = json.events
+}
+
+const deleteEvent = async function () {
+    const response = await fetch('/api/events/delete/' + route.params.id, {
+    method: 'DELETE',
+  })
+  const json = await response.json()
+  alert(JSON.stringify(json))
+  router.push('/')
+}
 
 const events = ref([])
 const totalPages = ref(0)
@@ -44,14 +94,19 @@ watch(
     { immediate: true }
 )
 
-const onPageChange = (p) => {
-    page.value = p
-    getEvents()
-}
+// const onPageChange = (p) => {
+//     page.value = p
+//     getEvents()
+// }
 
 onMounted(() => {
-    getEvents()
+    if (route.params.id) {
+        getEvent()
+    } else {
+        getEvents()
+    }
 })
+
 </script>
 
 <template>
@@ -93,23 +148,37 @@ onMounted(() => {
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb d-inline-flex p-2 bg-light">
                             <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-                            <li class="breadcrumb-item active" v-if="route.name === 'events'" aria-current="page">Events</li>
-                            <li class="breadcrumb-item" v-if="route.name === 'newEvents'"><router-link to="/events">Events</router-link></li>
-                            <li class="breadcrumb-item active" v-if="route.name === 'newEvents'" aria-current="page">New Event</li>
+                            <li class="breadcrumb-item active" v-if="route.name === 'events'" aria-current="page">Events
+                            </li>
+                            <li class="breadcrumb-item" v-if="route.name === 'newEvents'"><router-link
+                                    to="/events">Events</router-link></li>
+                            <li class="breadcrumb-item active" v-if="route.name === 'newEvents'" aria-current="page">New
+                                Event</li>
+                            <li class="breadcrumb-item" v-if="route.name === 'eventDetails'"><router-link
+                                    to="/events">Events</router-link></li>
+                            <li class="breadcrumb-item active" v-if="route.name === 'eventDetails'" aria-current="page">
+                                event title</li>
+                            <li class="breadcrumb-item" v-if="route.name === 'editEvent'"><router-link
+                                    to="/events">Events</router-link></li>
+                            <li class="breadcrumb-item active" v-if="route.name === 'editEvent'" aria-current="page">
+                                Edit event</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="col-sm-6 my-4 text-end" v-if="route.name === 'events'">
                     <router-link to="/events/new" class="btn btn-primary">New</router-link>
                 </div>
+                <div class="col-sm-6 my-4 text-end" v-if="route.name === 'editEvent'">
+                    <button v-on:click="deleteEvent" type="button" class="btn btn-danger">Delete</button>
+                </div>
             </div>
         </div>
 
-        
+
         <div class="row mb-3" v-if="route.name === 'events'">
             <div class="col-md-4" v-for="event in events" :key="event._id">
                 <div class="card">
-                    <a :href="'/events/edit/' + event._id">
+                    <a :href="'/events/detail/' + event._id">
                         <img :src="event.image" class="card-img-top" alt="Image" />
                     </a>
                     <div class="card-body">
@@ -132,7 +201,167 @@ onMounted(() => {
             </div>
         </div>
 
-        <nav aria-label="Page navigation" v-if="route.name === 'events'">
+        <div class="container-fluid" v-if="route.name === 'newEvents'">
+            <div class="container my-4">
+                <form class="container" @submit.prevent="submitEvent">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="my-4">
+                                <label for="eventTitle" class="form-label">Event Title</label>
+                                <input type="text" v-model="newEvent.title" class="form-control" id="eventTitle">
+                            </div>
+                            <div>
+                                <label for="organizer" class="form-label">Organizer</label>
+                                <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" v-model="newEvent.description" id="description"
+                                rows="6"></textarea>
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="dateTime" class="form-label">Datetime</label>
+                            <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime">
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="quota" class="form-label">Quota</label>
+                            <input type="number" v-model="newEvent.quota" class="form-control" id="quota">
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" v-model="newEvent.location" class="form-control" id="location">
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="text" v-model="newEvent.image" class="form-control" id="image">
+                        </div>
+
+                        <div class="container my-4 d-flex justify-content-between">
+                            <div class="form-check">
+                                <input class="form-check-input" name="highlight" type="checkbox"
+                                    v-model="newEvent.highlight" id="highlight">
+                                <label class="form-check-label" for="highlight">
+                                    Highlight
+                                </label>
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="container-fluid" v-if="route.name === 'eventDetails'">
+            <div class="container my-4">
+                <div class="row">
+                    <div class="col-12 col-md-6 my-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    {{ newEvent.title }}
+                                </h3>
+                                <h4 class="card-subtitle mb-2 text-body-secondary">
+                                    {{ newEvent.organizer }}
+                                </h4>
+                                <p class="card-text my-4">
+                                    {{ newEvent.description }}
+                                </p>
+                                <div class="container card">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            {{ newEvent.Datetime }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {{ newEvent.location }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            {{ newEvent.quota }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 my-2">
+                        <div class="card">
+                            <img src="https://picsum.photos/200/100" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Become a volunteer!</h5>
+                                <p class="card-text">Your time and talent can make a real difference in people's lives.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" v-if="route.name === 'editEvent'">
+            <form class="container" @submit.prevent="submitEvent">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="my-4">
+                                <label for="eventTitle" class="form-label">Event Title</label>
+                                <input type="text" v-model="newEvent.title" class="form-control" id="eventTitle">
+                            </div>
+                            <div>
+                                <label for="organizer" class="form-label">Organizer</label>
+                                <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" v-model="newEvent.description" id="description"
+                                rows="6"></textarea>
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="dateTime" class="form-label">Datetime</label>
+                            <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime">
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="quota" class="form-label">Quota</label>
+                            <input type="number" v-model="newEvent.quota" class="form-control" id="quota">
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" v-model="newEvent.location" class="form-control" id="location">
+                        </div>
+
+                        <div class="col-md-6 my-4">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="text" v-model="newEvent.image" class="form-control" id="image">
+                        </div>
+
+                        <div class="container my-4 d-flex justify-content-between">
+                            <div class="form-check">
+                                <input class="form-check-input" name="highlight" type="checkbox"
+                                    v-model="newEvent.highlight" id="highlight">
+                                <label class="form-check-label" for="highlight">
+                                    Highlight
+                                </label>
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+        <!-- <nav aria-label="Page navigation" v-if="route.name === 'events'">
             <ul class="pagination">
                 <li class="page-item" v-for="i in Array.from({ length: totalPages }, (_, i) => i + 1)" :key="i">
                     <a class="page-link" @click="onPageChange(i)">
@@ -140,69 +369,7 @@ onMounted(() => {
                     </a>
                 </li>
             </ul>
-        </nav>
-
-        <div class="container-fluid" v-if="route.name === 'newEvents'">
-            <div class="container my-4">
-        <form action="/events" method="POST">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class = "my-4">
-                        <label for="eventTitle" class="form-label">Event Title</label>
-                        <input type="text" name="title" class="form-control" id="eventTitle">
-                    </div>
-                    <div>
-                        <label for="organizer" class="form-label">Organizer</label>
-                        <input type="text" name="organizer" class="form-control" id="organizer">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" name="description" id="description" rows="6"></textarea>
-                </div>
-
-                <div class="col-md-6 my-4">
-                    <label for="dateTime" class="form-label">Datetime</label>
-                    <input type="datetime-local" name="Datetime" class="form-control" id="dateTime">
-                </div>
-
-                <div class="col-md-6 my-4">
-                    <label for="quota" class="form-label">Quota</label>
-                    <input type="number" name="quota" class="form-control" id="quota">
-                </div>
-
-                <div class="col-md-6 my-4">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" name="location" class="form-control" id="location">
-                </div>
-
-                <div class="col-md-6 my-4">
-                    <label for="image" class="form-label">Image</label>
-                    <input type="text" name="image" class="form-control" id="image">
-                </div>
-
-                <div class="container my-4 d-flex justify-content-between">
-                    <div class="form-check">
-                        <input class="form-check-input" name="highlight" type="checkbox" id="highlight">
-                        <label class="form-check-label" for="highlight">
-                            Highlight
-                        </label>
-
-                        
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-        </div>
-
-
-
-
-
+        </nav> -->
 
     </main>
 </template>

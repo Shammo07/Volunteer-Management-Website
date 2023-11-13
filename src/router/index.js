@@ -28,6 +28,16 @@ const router = createRouter({
       component: () => import('../views/EventsPage.vue')
     },
     {
+      path: '/events/detail/:id',
+      name: 'eventDetails',
+      component: () => import('../views/EventsPage.vue')
+    },
+    {
+      path: '/events/edit/:id',
+      name: 'editEvent',
+      component: () => import('../views/EventsPage.vue')
+    },
+    {
       path: '/becomeVolunteer',
       name: 'becomeVolunteer',
       component: () => import('../views/BecomeVolunteer.vue')
