@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 
+
 const newEvent = ref({
     title: '',
     description: '',
@@ -42,6 +43,7 @@ const submitEvent = async function () {
 const getEvent = async function () {
     const response = await fetch('/api/events/detail/' + route.params.id)
     const json = await response.json()
+
     newEvent.value = json.events
 }
 
@@ -191,7 +193,7 @@ onMounted(() => {
                             <br />
                         </p>
                         <small class="text-muted">
-                            Last updated 5 min ago
+                            Last updated {{ event.modifiedAt }}
                         </small>
                         <div class="text-end">
                             <a :href="'/events/edit/' + event._id" class="btn btn-primary">Edit</a>
