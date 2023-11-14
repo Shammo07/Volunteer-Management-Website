@@ -1,4 +1,4 @@
-body {
+/* body {
   font: 12px 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 .container {
@@ -27,8 +27,6 @@ a {
   object-fit: cover;
 }
 .card {
-  /* margin-right: 15px;
-  margin-left: 15px; */
   margin-bottom: 15px;
   padding: 2px;
 }
@@ -51,7 +49,6 @@ a {
 
 .breadcrumb {
   border-radius: 5px;
-  /* margin-left: 15px; */
 }
 
 .button {
@@ -68,4 +65,4 @@ a {
 .btn.btn-primary:hover {
   background-color: #0056b3;
   border-color: #0056b3;
-}
+} */

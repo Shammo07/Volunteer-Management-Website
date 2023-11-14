@@ -38,7 +38,7 @@ const route = useRoute()
 <template>
     <main>
         <div class="container-fluid">
-            <div class="my-4">
+            <div>
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
                         <span class="navbar-brand mb-0 h1">Navbar</span>

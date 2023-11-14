@@ -74,7 +74,7 @@ const getEvents = () => {
     fetch(`/api/events?${params}`)
         .then((response) => response.json())
         .then((result) => {
-            totalPages.value = result.totalPages
+            totalPages.value = (result.total / result.perPage + 1)
             console.log(totalPages.value)
             events.value = result.events
         })
@@ -176,7 +176,7 @@ onMounted(() => {
 
 
         <div class="row mb-3" v-if="route.name === 'events'">
-            <div class="col-md-4" v-for="event in events" :key="event._id">
+            <div class="col-md-4 my-4" v-for="event in events" :key="event._id">
                 <div class="card">
                     <a :href="'/events/detail/' + event._id">
                         <img :src="event.image" class="card-img-top" alt="Image" />
@@ -294,7 +294,7 @@ onMounted(() => {
 
                     <div class="col-12 col-md-6 my-2">
                         <div class="card">
-                            <img src="https://picsum.photos/200/100" class="card-img-top" alt="...">
+                            <img :src="newEvent.image" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">Become a volunteer!</h5>
                                 <p class="card-text">Your time and talent can make a real difference in people's lives.</p>
@@ -360,16 +360,19 @@ onMounted(() => {
             </form>
         </div>
 
-        <div class = "container">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item" v-for="i in Array.from({ length: totalPages }, (_, i) => i + 1)" :key="i">
-                    <a class="page-link" @click="onPageChange(i)">
-                        {{ i }}
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+        <div class="container" v-if="route.name === 'events'">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item" v-for="i in Array.from({ length: totalPages }, (_, i) => i + 1)" :key="i">
+                        <button v-if="i != page" class="btn btn-outline-primary" @click="onPageChange(i)">
+                            {{ i }}
+                        </button>
+                        <button v-if="i == page" class="btn btn-primary" >
+                            {{ i }}
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </main>
 </template>
