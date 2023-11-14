@@ -1,7 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const volunteer = ref({
     name: '',
@@ -30,6 +32,7 @@ const submitVolunteer = async function () {
     console.log(json)
     // alert the user
     alert(JSON.stringify(json))
+    router.push('/')
 }
 
 const route = useRoute()

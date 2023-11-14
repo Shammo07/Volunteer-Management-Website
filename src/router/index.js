@@ -47,6 +47,11 @@ const router = createRouter({
       name: 'volunteers',
       component: () => import('../views/VolunteersView.vue')
     },
+    {
+      path: '/volunteers/edit/:id',
+      name: 'editVolunteer',
+      component: () => import('../views/VolunteersView.vue')
+    },
   ]
 })
 

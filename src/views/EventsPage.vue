@@ -36,7 +36,7 @@ const submitEvent = async function () {
 
     // alert the user
     alert(JSON.stringify(json))
-    router.push('/')
+    router.push('/events')
 }
 
 const getEvent = async function () {
