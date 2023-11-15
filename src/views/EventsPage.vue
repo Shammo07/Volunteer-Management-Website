@@ -90,11 +90,10 @@ const onPageChange = (p) => {
 }
 
 onMounted(() => {
+    getEvents()
     if (route.params.id) {
         getEvent()
-    } else {
-        getEvents()
-    }
+    } 
 })
 
 </script>

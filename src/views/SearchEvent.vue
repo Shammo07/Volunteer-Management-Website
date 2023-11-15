@@ -96,7 +96,7 @@ onMounted(() => {
             </div>
         </div>
 
-        <div class="container" v-if="route.name === 'events'">
+        <div class="container">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li class="page-item" v-for="i in Array.from({ length: totalPages }, (_, i) => i + 1)" :key="i">
