@@ -33,7 +33,9 @@ const getVolunteers = () => {
     fetch(`/api/volunteer?${params}`)
         .then((response) => response.json())
         .then((result) => {
-            totalPages.value = (result.total / result.perPage + 1)
+            totalPages.value = (result.total % result.perPage) !== 0
+            ? (result.total / result.perPage + 1)
+            : (result.total / result.perPage)
             console.log(totalPages.value)
             volunteers.value = result.volunteers
         })

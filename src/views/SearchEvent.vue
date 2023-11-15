@@ -8,7 +8,7 @@ const events = ref([])
 const totalPages = ref(0)
 const loading = ref(false)
 let page = ref(1)
-let perPage = ref(6)
+let perPage = ref(1)
 
 const keyword = ref('')
 
@@ -25,7 +25,9 @@ const getEvents = () => {
     fetch(`/api/events?${params}`)
         .then((response) => response.json())
         .then((result) => {
-            totalPages.value = (result.total / result.perPage + 1)
+            totalPages.value = (result.total % result.perPage) !== 0
+            ? (result.total / result.perPage + 1)
+            : (result.total / result.perPage)
             events.value = result.events
             loading.value = false
         })
