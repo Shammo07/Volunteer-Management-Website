@@ -1,7 +1,9 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import { useRoute, useRouter } from 'vue-router'
+
+import NavBar from '../components/NavBar.vue';
 
 const router = useRouter()
 
@@ -61,16 +63,10 @@ const totalPages = ref(0)
 let page = ref(1)
 let perPage = ref(6)
 
-const keyword = ref('')
-
 const route = useRoute()
 
 const getEvents = () => {
-    const titleParam = keyword.value || ''
     let params = [`page=${page.value}`, `perPage=${perPage.value}`]
-    if (titleParam) {
-        params.push(`title=${titleParam}`)
-    }
     params = params.join('&')
 
     fetch(`/api/events?${params}`)
@@ -87,14 +83,6 @@ const getEvents = () => {
         })
 }
 
-watch(
-    () => route.query.title,
-    (newKeyword) => {
-        keyword.value = newKeyword
-        getEvents()
-    },
-    { immediate: true }
-)
 
 const onPageChange = (p) => {
     page.value = p
@@ -113,7 +101,7 @@ onMounted(() => {
 
 <template>
     <main>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <span class="navbar-brand mb-0 h1">Navbar</span>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -143,7 +131,10 @@ onMounted(() => {
                     </form>
                 </div>
             </div>
-        </nav>
+        </nav> -->
+        <NavBar />
+        
+
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-sm-6 my-4">

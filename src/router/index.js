@@ -52,6 +52,12 @@ const router = createRouter({
       name: 'editVolunteer',
       component: () => import('../views/VolunteersView.vue')
     },
+    {
+      path: '/events/keywords',
+      name: 'searchEvent',
+      component: () => import('../views/SearchEvent.vue'),
+      props: (route) => ({ title: route.query.title }),
+    },
   ]
 })
 

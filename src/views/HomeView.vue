@@ -1,5 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import NavBar from '../components/NavBar.vue';
+// import { useRouter } from 'vue-router';
+
+// const router = useRouter();
 
 const highlightedEvents = ref([])
 const recentEvents = ref([])
@@ -16,7 +20,7 @@ onMounted(getEvents)
 
 <template>
   <main>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Navbar</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -45,7 +49,8 @@ onMounted(getEvents)
           </form>
         </div>
       </div>
-    </nav>
+    </nav> -->
+    <NavBar />
 
     <div class="container-fluid">
       <div id="carouselExampleIndicators" class="carousel slide my-4" data-bs-ride="carousel">

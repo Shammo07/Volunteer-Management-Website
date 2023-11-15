@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import NavBar from '../components/NavBar.vue';
 const route = useRoute();
 const router = useRouter();
 const volunteer = ref({
@@ -91,7 +92,7 @@ onMounted(() => {
 
 <template>
     <main>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <span class="navbar-brand mb-0 h1">Navbar</span>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -121,7 +122,8 @@ onMounted(() => {
                     </form>
                 </div>
             </div>
-        </nav>
+        </nav> -->
+        <NavBar />
 
         <div class="container-fluid">
             <div class="row mb-3">

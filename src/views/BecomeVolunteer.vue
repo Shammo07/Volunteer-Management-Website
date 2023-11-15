@@ -1,7 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
+import NavBar from '../components/NavBar.vue';
 
 const router = useRouter()
 
@@ -42,7 +42,7 @@ const route = useRoute()
     <main>
         <div class="container-fluid">
             <div>
-                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
                         <span class="navbar-brand mb-0 h1">Navbar</span>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -73,7 +73,8 @@ const route = useRoute()
                             </form>
                         </div>
                     </div>
-                </nav>
+                </nav> -->
+                <NavBar />
             </div>
 
 
