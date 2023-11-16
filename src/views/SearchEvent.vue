@@ -8,7 +8,7 @@ const events = ref([])
 const totalPages = ref(0)
 const loading = ref(false)
 let page = ref(1)
-let perPage = ref(1)
+let perPage = ref(6)
 
 const keyword = ref('')
 
