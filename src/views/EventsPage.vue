@@ -202,11 +202,11 @@ onMounted(() => {
                         <div class="col-md-6">
                             <div class="my-4">
                                 <label for="eventTitle" class="form-label">Event Title</label>
-                                <input type="text" v-model="newEvent.title" class="form-control" id="eventTitle">
+                                <input type="text" v-model="newEvent.title" class="form-control" id="eventTitle" required>
                             </div>
                             <div>
                                 <label for="organizer" class="form-label">Organizer</label>
-                                <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer">
+                                <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -217,17 +217,17 @@ onMounted(() => {
 
                         <div class="col-md-6 my-4">
                             <label for="dateTime" class="form-label">Datetime</label>
-                            <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime">
+                            <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime" required>
                         </div>
 
                         <div class="col-md-6 my-4">
                             <label for="quota" class="form-label">Quota</label>
-                            <input type="number" v-model="newEvent.quota" class="form-control" id="quota">
+                            <input type="number" v-model="newEvent.quota" class="form-control" id="quota" required>
                         </div>
 
                         <div class="col-md-6 my-4">
                             <label for="location" class="form-label">Location</label>
-                            <input type="text" v-model="newEvent.location" class="form-control" id="location">
+                            <input type="text" v-model="newEvent.location" class="form-control" id="location" required>
                         </div>
 
                         <div class="col-md-6 my-4">
@@ -305,11 +305,11 @@ onMounted(() => {
                     <div class="col-md-6">
                         <div class="my-4">
                             <label for="eventTitle" class="form-label">Event Title</label>
-                            <input type="text" v-model="newEvent.title" class="form-control" id="eventTitle">
+                            <input type="text" v-model="newEvent.title" class="form-control" id="eventTitle" required>
                         </div>
                         <div>
                             <label for="organizer" class="form-label">Organizer</label>
-                            <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer">
+                            <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -319,17 +319,17 @@ onMounted(() => {
 
                     <div class="col-md-6 my-4">
                         <label for="dateTime" class="form-label">Datetime</label>
-                        <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime">
+                        <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime" required>
                     </div>
 
                     <div class="col-md-6 my-4">
                         <label for="quota" class="form-label">Quota</label>
-                        <input type="number" v-model="newEvent.quota" class="form-control" id="quota">
+                        <input type="number" v-model="newEvent.quota" class="form-control" id="quota" required>
                     </div>
 
                     <div class="col-md-6 my-4">
                         <label for="location" class="form-label">Location</label>
-                        <input type="text" v-model="newEvent.location" class="form-control" id="location">
+                        <input type="text" v-model="newEvent.location" class="form-control" id="location" required>
                     </div>
 
                     <div class="col-md-6 my-4">

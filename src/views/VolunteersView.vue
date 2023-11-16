@@ -191,19 +191,19 @@ onMounted(() => {
                     <form class="container" @submit.prevent="submitVolunteer">
                         <div class="mb-3">
                             <label for="imputEmail" class="form-label">Email</label>
-                            <input type="email" v-model="volunteer.email" class="form-control" id="imputEmail">
+                            <input type="email" v-model="volunteer.email" class="form-control" id="imputEmail" required>
                         </div>
                         <div class="mb-3">
                             <label for="inputPassword" class="form-label">Password</label>
-                            <input type="password" v-model="volunteer.password" class="form-control" id="imputPassword">
+                            <input type="password" v-model="volunteer.password" class="form-control" id="imputPassword" required>
                         </div>
                         <div class="mb-3">
                             <label for="inputName" class="form-label">Name</label>
-                            <input type="text" v-model="volunteer.name" class="form-control" id="inputName">
+                            <input type="text" v-model="volunteer.name" class="form-control" id="inputName" required>
                         </div>
                         <div class="mb-3">
                             <label for="inputContact" class="form-label">Contact</label>
-                            <input type="text" v-model="volunteer.contact" class="form-control" id="inputContact">
+                            <input type="text" v-model="volunteer.contact" class="form-control" id="inputContact" required>
                         </div>
                         <div class="mb-3">
                             <label for="inputAge" class="form-label">Age Group</label>
