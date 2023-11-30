@@ -15,6 +15,19 @@ const volunteer = ref({
     terms: false,
 })
 
+const user = ref({
+    name: '',
+    email: '',
+    password: '',
+    role:'',
+})
+
+const submitForm = async function () {
+
+    submitVolunteer();
+    submitUser();
+} 
+
 const submitVolunteer = async function () {
     var url = '/api/volunteer'
     var method = 'POST'
@@ -35,6 +48,33 @@ const submitVolunteer = async function () {
     router.push('/')
 }
 
+const submitUser = async function () {
+    var url = '/api/users'
+    var method = 'POST'
+    
+
+    user.value.email = volunteer.value.email;
+    user.value.password = volunteer.value.password;
+    user.value.name = volunteer.value.name;
+    user.value.role = 'Volunteer';
+
+
+    // post the booking to the backend
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user.value),
+    })
+
+
+
+    const json = await response.json()
+    console.log(json)
+    alert(JSON.stringify(json))
+}
+
 const route = useRoute()
 </script>
 
@@ -42,38 +82,6 @@ const route = useRoute()
     <main>
         <div class="container-fluid">
             <div>
-                <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                    <div class="container-fluid">
-                        <span class="navbar-brand mb-0 h1">Navbar</span>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <router-link class="nav-link active" to="/">Home</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link class="nav-link" to="/events">Events</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link class="nav-link active" to="/becomeVolunteer">Become
-                                        Volunteer</router-link>
-                                </li>
-                                <li class="nav-item">
-                                    <router-link class="nav-link" to="/volunteers">Volunteers</router-link>
-                                </li>
-                            </ul>
-                            <form class="d-flex" @submit.prevent="searchEvents">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                                    v-model="searchQuery" />
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                </nav> -->
                 <NavBar />
             </div>
 
@@ -93,8 +101,8 @@ const route = useRoute()
 
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <form class="container" @submit.prevent="submitVolunteer">
+                    <div class="col-md-6" >
+                        <form class="container" @submit.prevent="submitForm" >
                             <div class="mb-3">
                                 <label for="imputEmail" class="form-label">Email</label>
                                 <input type="email" v-model="volunteer.email" class="form-control" id="imputEmail" requiired>

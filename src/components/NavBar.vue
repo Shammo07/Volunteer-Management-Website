@@ -1,6 +1,6 @@
 <template>
-    <main>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <main>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Navbar</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -27,21 +27,41 @@
               v-model="searchQuery" />
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
+          <template v-if="userRole == 'Volunteer' || userRole == 'Staff'">
+            <form class="d-flex" @click="logout">
+              <button class="btn btn-outline-primary" type="submit">Logout</button>
+            </form>
+          </template>
+          <template v-else>
+            <form class="d-flex" @submit.prevent="login">
+              <button class="btn btn-primary" type="submit">Login</button>
+            </form>
+          </template>
         </div>
       </div>
     </nav>
-    </main>
+  </main>
 </template>
 
 <script setup>
-    import { ref } from 'vue'
-    import { useRouter } from 'vue-router'
+import { ref, inject } from "vue";
+import { useRouter } from "vue-router";
 
-    let searchQuery = ref('')
+const searchQuery = ref("");
+const router = useRouter();
 
-    const router = useRouter()
+const userRole = inject('userRole')
 
-    const searchEvents = () => {
-    router.push({ name: 'searchEvent', query: { title: searchQuery.value } })
-    }
+const searchEvents = () => {
+  router.push({ name: "searchEvent", query: { title: searchQuery.value } });
+};
+
+const login = () => {
+  router.push("/login");
+};
+
+const logout = () => {
+  localStorage.removeItem("token");
+  location.reload();
+};
 </script>
