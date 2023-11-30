@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 
 import { useRoute, useRouter } from 'vue-router'
 
@@ -7,6 +7,7 @@ import NavBar from '../components/NavBar.vue';
 
 const router = useRouter()
 
+const userRole = inject('userRole')
 
 const newEvent = ref({
     title: '',
@@ -58,6 +59,19 @@ const deleteEvent = async function () {
     router.push('/')
 }
 
+const join = async function (eventId) {
+    const response = await fetch(`/api/volunteer/join/${eventId}` , {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    const json = await response.json()
+    alert(JSON.stringify(json))
+    router.push('/')
+}
+
 const events = ref([])
 const totalPages = ref(0)
 let page = ref(1)
@@ -73,8 +87,8 @@ const getEvents = () => {
         .then((response) => response.json())
         .then((result) => {
             totalPages.value = (result.total % result.perPage) !== 0
-            ? (result.total / result.perPage + 1)
-            : (result.total / result.perPage)
+                ? (result.total / result.perPage + 1)
+                : (result.total / result.perPage)
             console.log(totalPages.value)
             events.value = result.events
         })
@@ -95,7 +109,7 @@ onMounted(() => {
     getEvents()
     if (route.params.id) {
         getEvent()
-    } 
+    }
 })
 
 </script>
@@ -134,7 +148,7 @@ onMounted(() => {
             </div>
         </nav> -->
         <NavBar />
-        
+
 
         <div class="container-fluid">
             <div class="row mb-3">
@@ -159,7 +173,7 @@ onMounted(() => {
                         </ol>
                     </nav>
                 </div>
-                <div class="col-sm-6 my-4 text-end" v-if="route.name === 'events'">
+                <div class="col-sm-6 my-4 text-end" v-if="route.name === 'events' && userRole == 'Staff'">
                     <router-link to="/events/new" class="btn btn-primary">New</router-link>
                 </div>
                 <div class="col-sm-6 my-4 text-end" v-if="route.name === 'editEvent'">
@@ -187,9 +201,12 @@ onMounted(() => {
                         <small class="text-muted">
                             Last updated {{ event.modifiedAt }}
                         </small>
-                        <div class="text-end">
+                        <div class="text-end" v-if="userRole == 'Staff'">
                             <a :href="'/events/edit/' + event._id" class="btn btn-primary">Edit</a>
                         </div>
+                    </div>
+                    <div class="text-end" v-if="userRole == 'Volunteer'">
+                        <button @click="join(event._id)" class="btn btn-outline-primary">Join</button>
                     </div>
                 </div>
             </div>
@@ -206,7 +223,8 @@ onMounted(() => {
                             </div>
                             <div>
                                 <label for="organizer" class="form-label">Organizer</label>
-                                <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer" required>
+                                <input type="text" v-model="newEvent.organizer" class="form-control" id="organizer"
+                                    required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -217,7 +235,8 @@ onMounted(() => {
 
                         <div class="col-md-6 my-4">
                             <label for="dateTime" class="form-label">Datetime</label>
-                            <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime" required>
+                            <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime"
+                                required>
                         </div>
 
                         <div class="col-md-6 my-4">
@@ -319,7 +338,8 @@ onMounted(() => {
 
                     <div class="col-md-6 my-4">
                         <label for="dateTime" class="form-label">Datetime</label>
-                        <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime" required>
+                        <input type="datetime-local" v-model="newEvent.datetime" class="form-control" id="dateTime"
+                            required>
                     </div>
 
                     <div class="col-md-6 my-4">
@@ -361,12 +381,11 @@ onMounted(() => {
                         <button v-if="i != page" class="btn btn-outline-primary" @click="onPageChange(i)">
                             {{ i }}
                         </button>
-                        <button v-if="i == page" class="btn btn-primary" >
+                        <button v-if="i == page" class="btn btn-primary">
                             {{ i }}
                         </button>
                     </li>
                 </ul>
             </nav>
         </div>
-    </main>
-</template>
+</main></template>

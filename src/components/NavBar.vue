@@ -15,12 +15,16 @@
             <li class="nav-item">
               <router-link class="nav-link active" to="/events">Events</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="userRole != 'Volunteer' && userRole != 'Staff'">
               <router-link class="nav-link active" to="/becomeVolunteer">Become Volunteer</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="userRole == 'Staff'">
               <router-link class="nav-link active" to="/volunteers">Volunteers</router-link>
             </li>
+            <li class="nav-item" v-if="userRole == 'Volunteer'">
+              <router-link class="nav-link active" to="/myevents">My Events</router-link>
+            </li>
+
           </ul>
           <form class="d-flex" @submit.prevent="searchEvents">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"

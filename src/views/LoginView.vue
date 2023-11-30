@@ -32,6 +32,7 @@ const login = async () => {
         // save token to local storage
         localStorage.setItem('token', data.token);
 
+        window.location.href = '/'
         router.push("/");
     } catch (error) {
         alert(error);
