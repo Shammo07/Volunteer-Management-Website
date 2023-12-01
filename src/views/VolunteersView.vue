@@ -14,6 +14,18 @@ const volunteer = ref({
     terms: false,
 })
 
+const events = ref([])
+
+const getAllEvents = async function () {
+    const volunteerId = route.params.id
+    const response = await fetch(`/api/staff/volunteers/${volunteerId}/events`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    const json = await response.json()
+    events.value = json.events
+}
 
 const volunteers = ref([])
 const totalPages = ref(0)
@@ -101,6 +113,7 @@ onMounted(() => {
     getVolunteers()
     if (route.params.id) {
         getVolunteer()
+        getAllEvents()
     }
 })
 </script>
@@ -138,7 +151,7 @@ onMounted(() => {
             <thead>
                 <tr>
                     <td scope="col"> Volunteer Name </td>
-                    <td scope="col"> Name </td>
+                    <td scope="col"> Email </td>
                     <td scope="col"> Contact </td>
                     <td scope="col"> Action </td>
                 </tr>
@@ -218,7 +231,21 @@ onMounted(() => {
                 </div>
 
 
-
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td scope="col"> Event Title </td>
+                                <td scope="col"> Action </td>
+                            </tr>
+                        </thead>
+                        <tr v-for="eve in events" :key="eve._id">
+                            <td> {{ eve.title }} </td>
+                            <td> <a :href="'/events/edit/' + eve._id" class="btn btn-primary">Edit</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
             </div>
         </div>
