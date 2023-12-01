@@ -21,7 +21,7 @@ const newEvent = ref({
 })
 
 const submitEvent = async function () {
-    var url = '/api/events'
+    var url = '/api/staff/event'
     var method = 'POST'
 
     if (route.name === 'editEvent') {
@@ -33,6 +33,7 @@ const submitEvent = async function () {
         method: method,
         headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(newEvent.value),
     })
@@ -51,8 +52,11 @@ const getEvent = async function () {
 }
 
 const deleteEvent = async function () {
-    const response = await fetch('/api/events/delete/' + route.params.id, {
+    const response = await fetch('/api/staff/event/delete/' + route.params.id, {
         method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
     })
     const json = await response.json()
     alert(JSON.stringify(json))
@@ -60,7 +64,7 @@ const deleteEvent = async function () {
 }
 
 const join = async function (eventId) {
-    const response = await fetch(`/api/volunteer/join/${eventId}` , {
+    const response = await fetch(`/api/volunteer/join/${eventId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -388,4 +392,5 @@ onMounted(() => {
                 </ul>
             </nav>
         </div>
-</main></template>
+    </main>
+</template>

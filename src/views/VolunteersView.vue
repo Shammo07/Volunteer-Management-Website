@@ -30,12 +30,17 @@ const getVolunteers = () => {
     }
     params = params.join('&')
 
-    fetch(`/api/volunteer?${params}`)
+    fetch(`/api/staff/volunteer?${params}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    }
+    )
         .then((response) => response.json())
         .then((result) => {
             totalPages.value = (result.total % result.perPage) !== 0
-            ? (result.total / result.perPage + 1)
-            : (result.total / result.perPage)
+                ? (result.total / result.perPage + 1)
+                : (result.total / result.perPage)
             console.log(totalPages.value)
             volunteers.value = result.volunteers
         })
@@ -47,19 +52,24 @@ const getVolunteers = () => {
 }
 
 const getVolunteer = async function () {
-    const response = await fetch('/api/volunteer/detail/' + route.params.id)
+    const response = await fetch('/api/staff/volunteer/detail/' + route.params.id, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
     const json = await response.json()
     volunteer.value = json.volunteer
 }
 
 const submitVolunteer = async function () {
-    var url = '/api/volunteer/edit/' + route.params.id
+    var url = '/api/staff/volunteer/edit/' + route.params.id
     var method = 'PUT'
 
     const response = await fetch(url, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(volunteer.value),
     })
@@ -71,7 +81,7 @@ const submitVolunteer = async function () {
 }
 
 const deleteVolunteer = async function () {
-    const response = await fetch('/api/volunteer/delete/' + route.params.id, {
+    const response = await fetch('/api/staff/volunteer/delete/' + route.params.id, {
         method: 'DELETE',
     })
     const json = await response.json()
@@ -88,7 +98,7 @@ onMounted(() => {
     getVolunteers()
     if (route.params.id) {
         getVolunteer()
-    } 
+    }
 })
 </script>
 
@@ -195,7 +205,8 @@ onMounted(() => {
                         </div>
                         <div class="mb-3">
                             <label for="inputPassword" class="form-label">Password</label>
-                            <input type="password" v-model="volunteer.password" class="form-control" id="imputPassword" required>
+                            <input type="password" v-model="volunteer.password" class="form-control" id="imputPassword"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="inputName" class="form-label">Name</label>
