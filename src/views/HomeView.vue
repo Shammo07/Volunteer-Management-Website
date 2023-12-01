@@ -1,18 +1,33 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
+import { useRouter } from 'vue-router'
 import NavBar from '../components/NavBar.vue';
-// import { useRouter } from 'vue-router';
 
-// const router = useRouter();
+const router = useRouter();
 
 const highlightedEvents = ref([])
 const recentEvents = ref([])
+const userRole = inject('userRole')
 
 const getEvents = async () => {
   const response = await fetch('/api/events')
   const json = await response.json()
   highlightedEvents.value = json.highlightedEvents
   recentEvents.value = json.recentEvents
+}
+
+const join = async function (eventId) {
+    const response = await fetch(`/api/volunteer/join/${eventId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    const json = await response.json()
+    alert(JSON.stringify(json))
+    window.location.href = '/'
+    router.push('/')
 }
 
 onMounted(getEvents)
@@ -93,10 +108,13 @@ onMounted(getEvents)
               <small class="text-muted">
                 Last updated {{ event.modifiedAt }}
               </small>
-              <div class="text-end">
+              <div class="text-end" v-if= "userRole == 'Staff'">
                 <router-link :to="'/events/edit/' + event._id" class="btn btn-primary">
                   Edit
                 </router-link>
+              </div>
+              <div class="text-end" v-if= "userRole == 'Volunteer'">
+                <button @click="join(event._id)" class="btn btn-outline-primary">Join</button>
               </div>
             </div>
           </div>

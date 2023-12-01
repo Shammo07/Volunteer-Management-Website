@@ -29,9 +29,8 @@ const submitForm = async function () {
 } 
 
 const submitVolunteer = async function () {
-    var url = '/api/volunteer'
+    var url = '/api/becomeVolunteer'
     var method = 'POST'
-
 
     // post the booking to the backend
     const response = await fetch(url, {
