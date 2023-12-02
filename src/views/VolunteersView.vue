@@ -16,6 +16,23 @@ const volunteer = ref({
 
 const events = ref([])
 
+const removeFromEvent = async function (eventId) {
+    const volunteerId = route.params.id;
+    const response = await fetch(
+      `/api/staff/volunteerEventRemove/${eventId}/${volunteerId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
+    const json = await response.json()
+    alert(JSON.stringify(json))
+    router.push('/volunteers')
+}
+
 const getAllEvents = async function () {
     const volunteerId = route.params.id
     const response = await fetch(`/api/staff/volunteers/${volunteerId}/events`, {
@@ -102,6 +119,20 @@ const deleteVolunteer = async function () {
     const json = await response.json()
     alert(JSON.stringify(json))
     router.push('/')
+    return json.email;
+}
+
+const deleted = async function () {
+    const email = await deleteVolunteer();
+    await deleteUser(email);
+}
+
+const deleteUser = async function (email) {
+    const response = await fetch('/api/users/delete/' + email, {
+        method: 'DELETE',
+    })
+    const json = await response.json()
+    alert(JSON.stringify(json))
 }
 
 const onPageChange = (p) => {
@@ -142,7 +173,7 @@ onMounted(() => {
                     <router-link to="/becomeVolunteer" class="btn btn-primary">New</router-link>
                 </div>
                 <div class="col-sm-6 my-4 text-end" v-if="route.name === 'editVolunteer'">
-                    <button v-on:click="deleteVolunteer" type="button" class="btn btn-danger">Delete</button>
+                    <button v-on:click="deleted" type="button" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </div>
@@ -237,12 +268,15 @@ onMounted(() => {
                             <tr>
                                 <td scope="col"> Event Title </td>
                                 <td scope="col"> Action </td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tr v-for="eve in events" :key="eve._id">
                             <td> {{ eve.title }} </td>
                             <td> <a :href="'/events/edit/' + eve._id" class="btn btn-primary">Edit</a>
                             </td>
+                            <td> <button @click="removeFromEvent(eve._id)" type="button" class="btn btn-danger" style="background-color: red;" 
+                                > X </button></td>
                         </tr>
                     </table>
                 </div>

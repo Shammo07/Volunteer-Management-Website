@@ -33,6 +33,23 @@ const getAllVolunteers = async function () {
     volunteers.value = json.volunteers
 }
 
+const removeFromEvent = async function (volunteerId) {
+    const eventId = route.params.id;
+    const response = await fetch(
+      `/api/staff/volunteerEventRemove/${eventId}/${volunteerId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
+    const json = await response.json()
+    alert(JSON.stringify(json))
+    router.push('/events')
+}
+
 const submitEvent = async function () {
     var url = '/api/staff/event'
     var method = 'POST'
@@ -306,6 +323,7 @@ onMounted(() => {
                                             <td scope="col"> Name </td>
                                             <td scope="col"> Contact </td>
                                             <td scope="col"> Action </td>
+                                            <td></td>
                                         </tr>
                                     </thead>
                                     <tr v-for="vol in volunteers" :key="vol._id">
@@ -313,6 +331,7 @@ onMounted(() => {
                                         <td> {{ vol.contact }} </td>
                                         <td> <a :href="'/volunteers/edit/' + vol._id" class="btn btn-primary">Edit</a>
                                         </td>
+                                        <td><button @click="removeFromEvent(vol._id)" type="button" class="btn btn-danger" style="background-color: red;"> X </button></td>
                                     </tr>
                                 </table>
                             </div>
