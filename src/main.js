@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import Oruga from '@oruga-ui/oruga-next';
+import VueApexCharts from "vue3-apexcharts";
 
 import { bootstrapConfig } from '@oruga-ui/theme-bootstrap';
 
@@ -15,6 +16,6 @@ import "bootstrap"
 
 const app = createApp(App)
 
-app.use(router).use(Oruga, bootstrapConfig)
+app.use(router).use(Oruga, bootstrapConfig).use(VueApexCharts)
 
 app.mount('#app')

@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import DonutChart from '../components/DonutChart.vue'
+import NavBar from '../components/NavBar.vue';
 // import { useRoute } from 'vue-router';
 // const route = useRoute();
 
@@ -71,6 +73,7 @@ const getVolunteer = async function () {
 
 <template>
     <main>
+        <NavBar />
 
         <div class="container my-4">
             <nav aria-label="breadcrumb">
@@ -170,8 +173,8 @@ const getVolunteer = async function () {
                 <div class="col-12 col-md-4 my-2">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Become a volunteer!</h5>
-                            <p class="card-text">Your time and talent can make a real difference in people's lives.</p>
+                            <h5 class="card-title">Event Organizers</h5>
+                            <DonutChart />
                         </div>
 
                     </div>
