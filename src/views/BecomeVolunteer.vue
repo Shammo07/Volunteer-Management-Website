@@ -130,7 +130,7 @@ const route = useRoute()
                             </div>
                             <div class="mb-3">
                                 <label for="remarks" class="form-label">About me and remarks</label>
-                                <textarea class="form-control" v-model="volunteer.remarks" id="remarks" rows="3"></textarea>
+                                <textarea class="form-control" v-model="volunteer.remarks" id="remarks" rows="3" required></textarea>
                             </div>
 
                             <div class="row mb-3">

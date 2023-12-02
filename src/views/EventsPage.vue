@@ -4,6 +4,7 @@ import { ref, onMounted, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import NavBar from '../components/NavBar.vue';
+import { formatDistanceStrict } from 'date-fns'
 
 const router = useRouter()
 
@@ -36,14 +37,14 @@ const getAllVolunteers = async function () {
 const removeFromEvent = async function (volunteerId) {
     const eventId = route.params.id;
     const response = await fetch(
-      `/api/staff/volunteerEventRemove/${eventId}/${volunteerId}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
+        `/api/staff/volunteerEventRemove/${eventId}/${volunteerId}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        }
     )
     const json = await response.json()
     alert(JSON.stringify(json))
@@ -203,7 +204,11 @@ onMounted(() => {
                             <br />
                         </p>
                         <small class="text-muted">
-                            Last updated {{ event.modifiedAt }}
+                            Last Modified: {{
+                                formatDistanceStrict(new Date(event.modifiedAt), Date.now(), {
+                                    addSuffix: true,
+                                })
+                            }}
                         </small>
                         <div class="text-end" v-if="userRole == 'Staff'">
                             <a :href="'/events/edit/' + event._id" class="btn btn-primary">Edit</a>
@@ -233,8 +238,8 @@ onMounted(() => {
                         </div>
                         <div class="col-md-6">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" v-model="newEvent.description" id="description"
-                                rows="6" required></textarea>
+                            <textarea class="form-control" v-model="newEvent.description" id="description" rows="6"
+                                required></textarea>
                         </div>
 
                         <div class="col-md-6 my-4">
@@ -331,7 +336,8 @@ onMounted(() => {
                                         <td> {{ vol.contact }} </td>
                                         <td> <a :href="'/volunteers/edit/' + vol._id" class="btn btn-primary">Edit</a>
                                         </td>
-                                        <td><button @click="removeFromEvent(vol._id)" type="button" class="btn btn-danger" style="background-color: red;"> X </button></td>
+                                        <td><button @click="removeFromEvent(vol._id)" type="button" class="btn btn-danger"
+                                                style="background-color: red;"> X </button></td>
                                     </tr>
                                 </table>
                             </div>
@@ -356,7 +362,8 @@ onMounted(() => {
                     </div>
                     <div class="col-md-6">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" v-model="newEvent.description" id="description" rows="6" required></textarea>
+                        <textarea class="form-control" v-model="newEvent.description" id="description" rows="6"
+                            required></textarea>
                     </div>
 
                     <div class="col-md-6 my-4">

@@ -2,6 +2,7 @@
 import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import NavBar from '../components/NavBar.vue';
+import { formatDistanceStrict } from 'date-fns'
 
 
 const events = ref([])
@@ -26,8 +27,8 @@ const getEvents = () => {
         .then((response) => response.json())
         .then((result) => {
             totalPages.value = (result.total % result.perPage) !== 0
-            ? (result.total / result.perPage + 1)
-            : (result.total / result.perPage)
+                ? (result.total / result.perPage + 1)
+                : (result.total / result.perPage)
             events.value = result.events
             loading.value = false
         })
@@ -63,16 +64,16 @@ onMounted(() => {
         <NavBar />
 
         <div class="container my-4">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb d-inline-flex p-2 bg-light">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Search</li>
-                    </ol>
-                </nav>
-            </div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb d-inline-flex p-2 bg-light">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Search</li>
+                </ol>
+            </nav>
+        </div>
 
-            <div class="row mb-3">
+        <div class="row mb-3">
             <div class="col-md-4 my-4" v-for="event in events" :key="event._id">
                 <div class="card">
                     <a :href="'/events/detail/' + event._id">
@@ -88,7 +89,11 @@ onMounted(() => {
                             <br />
                         </p>
                         <small class="text-muted">
-                            Last updated {{ event.modifiedAt }}
+                            Last Modified: {{
+                                formatDistanceStrict(new Date(event.modifiedAt), Date.now(), {
+                                    addSuffix: true,
+                                })
+                            }}
                         </small>
                         <div class="text-end">
                             <a :href="'/events/edit/' + event._id" class="btn btn-primary">Edit</a>
@@ -105,7 +110,7 @@ onMounted(() => {
                         <button v-if="i != page" class="btn btn-outline-primary" @click="onPageChange(i)">
                             {{ i }}
                         </button>
-                        <button v-if="i == page" class="btn btn-primary" >
+                        <button v-if="i == page" class="btn btn-primary">
                             {{ i }}
                         </button>
                     </li>

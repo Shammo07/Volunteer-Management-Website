@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import DonutChart from '../components/DonutChart.vue'
 import NavBar from '../components/NavBar.vue';
+import { formatDistanceStrict } from 'date-fns'
 // import { useRoute } from 'vue-router';
 // const route = useRoute();
 
@@ -142,8 +143,8 @@ const getVolunteer = async function () {
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="remarks" class="form-label">About me and remarks</label>
-                                            <textarea class="form-control" v-model="volunteer.remarks" id="remarks"
-                                                rows="3" required></textarea>
+                                            <textarea class="form-control" v-model="volunteer.remarks" id="remarks" rows="3"
+                                                required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -199,7 +200,11 @@ const getVolunteer = async function () {
                                     <br />
                                 </p>
                                 <small class="text-muted">
-                                    Last updated {{ event.modifiedAt }}
+                                    Last updated: {{
+                                        formatDistanceStrict(new Date(event.modifiedAt), Date.now(), {
+                                            addSuffix: true,
+                                        })
+                                    }}
                                 </small>
                             </div>
                         </div>

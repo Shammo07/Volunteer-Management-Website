@@ -2,6 +2,7 @@
 import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBar from '../components/NavBar.vue';
+import { formatDistanceStrict } from 'date-fns'
 
 const router = useRouter();
 
@@ -17,17 +18,17 @@ const getEvents = async () => {
 }
 
 const join = async function (eventId) {
-    const response = await fetch(`/api/volunteer/join/${eventId}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-    })
-    const json = await response.json()
-    alert(JSON.stringify(json))
-    window.location.href = '/'
-    router.push('/')
+  const response = await fetch(`/api/volunteer/join/${eventId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+  const json = await response.json()
+  alert(JSON.stringify(json))
+  window.location.href = '/'
+  router.push('/')
 }
 
 onMounted(getEvents)
@@ -35,6 +36,7 @@ onMounted(getEvents)
 
 <template>
   <main>
+
     <NavBar />
 
     <div class="container-fluid">
@@ -76,14 +78,18 @@ onMounted(getEvents)
                 <br /><br />
               </p>
               <small class="text-muted">
-                Last updated {{ event.modifiedAt }}
+                Last Modified: {{
+                  formatDistanceStrict(new Date(event.modifiedAt), Date.now(), {
+                    addSuffix: true,
+                  })
+                }}
               </small>
-              <div class="text-end" v-if= "userRole == 'Staff'">
+              <div class="text-end" v-if="userRole == 'Staff'">
                 <router-link :to="'/events/edit/' + event._id" class="btn btn-primary">
                   Edit
                 </router-link>
               </div>
-              <div class="text-end" v-if= "userRole == 'Volunteer'">
+              <div class="text-end" v-if="userRole == 'Volunteer'">
                 <button @click="join(event._id)" class="btn btn-outline-primary">Join</button>
               </div>
             </div>
