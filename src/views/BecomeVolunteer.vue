@@ -23,10 +23,14 @@ const user = ref({
 })
 
 const submitForm = async function () {
-
-    submitVolunteer();
-    submitUser();
-} 
+    const isEmailUnique = await checkEmailUnique(volunteer.value.email);
+    if (isEmailUnique) {
+        submitVolunteer();
+        submitUser();
+    } else {
+        alert('Email is already taken');
+    }
+}
 
 const submitVolunteer = async function () {
     var url = '/api/becomeVolunteer'
@@ -72,6 +76,21 @@ const submitUser = async function () {
     const json = await response.json()
     console.log(json)
     alert(JSON.stringify(json))
+}
+
+const checkEmailUnique = async function (email) {
+    const url = '/api/checkEmail';
+    const method = 'POST';
+
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+    });
+    const json = await response.json();
+    return json.isUnique;
 }
 
 const route = useRoute()
