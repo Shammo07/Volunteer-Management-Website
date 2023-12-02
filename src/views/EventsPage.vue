@@ -234,7 +234,7 @@ onMounted(() => {
                         <div class="col-md-6">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" v-model="newEvent.description" id="description"
-                                rows="6"></textarea>
+                                rows="6" required></textarea>
                         </div>
 
                         <div class="col-md-6 my-4">
@@ -255,7 +255,7 @@ onMounted(() => {
 
                         <div class="col-md-6 my-4">
                             <label for="image" class="form-label">Image</label>
-                            <input type="text" v-model="newEvent.image" class="form-control" id="image">
+                            <input type="text" v-model="newEvent.image" class="form-control" id="image" required>
                         </div>
 
                         <div class="container my-4 d-flex justify-content-between">
@@ -356,7 +356,7 @@ onMounted(() => {
                     </div>
                     <div class="col-md-6">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" v-model="newEvent.description" id="description" rows="6"></textarea>
+                        <textarea class="form-control" v-model="newEvent.description" id="description" rows="6" required></textarea>
                     </div>
 
                     <div class="col-md-6 my-4">
@@ -377,7 +377,7 @@ onMounted(() => {
 
                     <div class="col-md-6 my-4">
                         <label for="image" class="form-label">Image</label>
-                        <input type="text" v-model="newEvent.image" class="form-control" id="image">
+                        <input type="text" v-model="newEvent.image" class="form-control" id="image" required>
                     </div>
 
                     <div class="container my-4 d-flex justify-content-between">

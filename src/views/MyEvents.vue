@@ -131,7 +131,7 @@ const getVolunteer = async function () {
                                         <div class="mb-3">
                                             <label for="inputAge" class="form-label">Age Group</label>
                                             <select class="form-select" aria-label="Default select example"
-                                                v-model="volunteer.ageGroup" id="inputAge">
+                                                v-model="volunteer.ageGroup" id="inputAge" required>
                                                 <option selected disabled>Dropdown...</option>
                                                 <option value="18-25">18-25</option>
                                                 <option value="26-36">26-36</option>
@@ -143,7 +143,7 @@ const getVolunteer = async function () {
                                         <div class="mb-3">
                                             <label for="remarks" class="form-label">About me and remarks</label>
                                             <textarea class="form-control" v-model="volunteer.remarks" id="remarks"
-                                                rows="3"></textarea>
+                                                rows="3" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@ const getVolunteer = async function () {
                                     <div class="col-md-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" v-model="volunteer.terms"
-                                                id="gridCheck1">
+                                                id="gridCheck1" required>
                                             <label class="form-check-label" for="gridCheck1">
                                                 Agree to Terms and Conditions
                                             </label>
