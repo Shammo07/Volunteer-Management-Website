@@ -15,7 +15,7 @@ const newEvent = ref({
     description: '',
     organizer: '',
     datetime: '',
-    quota: 0,
+    quota: 1,
     location: '',
     image: '',
     highlight: false,
@@ -374,7 +374,7 @@ onMounted(() => {
 
                     <div class="col-md-6 my-4">
                         <label for="quota" class="form-label">Quota</label>
-                        <input type="number" v-model="newEvent.quota" class="form-control" id="quota" required>
+                        <input type="number" min="1" v-model="newEvent.quota" class="form-control" id="quota" required>
                     </div>
 
                     <div class="col-md-6 my-4">
