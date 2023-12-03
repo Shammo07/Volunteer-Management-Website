@@ -66,6 +66,7 @@ const login = () => {
 
 const logout = () => {
   localStorage.removeItem("token");
-  location.reload();
+  window.location.href = '/'
+  router.push('/')
 };
 </script>
