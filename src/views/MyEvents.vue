@@ -86,9 +86,9 @@ const submitVolunteer = async function () {
     }
 
     console.log(json)
-  // alert the user
-  alert(json.message)
-  location.reload()
+    // alert the user
+    alert(json.message)
+    location.reload()
 }
 
 const submitUser = async function () {
@@ -106,9 +106,9 @@ const submitUser = async function () {
     }
 
     console.log(json)
-  // alert the user
-  alert(json.message)
-  location.reload()
+    // alert the user
+    alert(json.message)
+    location.reload()
 }
 
 
@@ -150,7 +150,8 @@ const submitForm = async function () {
                                         <div class="mb-3">
                                             <label for="inputEmail" class="form-label">Email</label>
                                             <input type="email" v-model="volunteer.email" class="form-control"
-                                                id="inputEmail" required>
+                                                id="inputEmail" readonly required>
+                                            <small class="form-text text-muted">Email cannot be changed.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
