@@ -69,6 +69,29 @@ const getVolunteer = async function () {
     volunteer.value = json.volunteer
     volunteer.value.password = ''
 }
+
+const submitVolunteer = async function () {
+    const response = await fetch('/api/volunteer/edit', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(volunteer.value),
+    })
+
+    const json = await response.json()
+    if (!response.ok) {
+        alert(json.message)
+    }
+
+    console.log(json)
+  // alert the user
+  alert(json.message)
+  location.reload()
+}
+
+
 </script>
 
 

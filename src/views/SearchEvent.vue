@@ -95,9 +95,6 @@ onMounted(() => {
                                 })
                             }}
                         </small>
-                        <div class="text-end">
-                            <a :href="'/events/edit/' + event._id" class="btn btn-primary">Edit</a>
-                        </div>
                     </div>
                 </div>
             </div>
