@@ -91,6 +91,33 @@ const submitVolunteer = async function () {
   location.reload()
 }
 
+const submitUser = async function () {
+    const response = await fetch('/api/users/edit', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(volunteer.value),
+    })
+
+    const json = await response.json()
+    if (!response.ok) {
+        alert(json.message)
+    }
+
+    console.log(json)
+  // alert the user
+  alert(json.message)
+  location.reload()
+}
+
+
+
+const submitForm = async function () {
+    submitVolunteer();
+    submitUser();
+}
+
 
 </script>
 
@@ -117,7 +144,7 @@ const submitVolunteer = async function () {
                             <h3 class="card-title">
                                 Update Profile
                             </h3>
-                            <form class="container" @submit.prevent="submitVolunteer">
+                            <form class="container" @submit.prevent="submitForm">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
